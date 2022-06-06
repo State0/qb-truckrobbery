@@ -1,7 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local ActivePolice = 2  		--<< needed policemen to activate the mission
-local cashA = 250 				--<<how much minimum you can get from a robbery
-local cashB = 450				--<< how much maximum you can get from a robbery
+local cashA = 600 				--<<how much minimum you can get from a robbery
+local cashB = 3000				--<< how much maximum you can get from a robbery
 local ActivationCost = 500		--<< how much is the activation of the mission (clean from the bank)
 local ResetTimer = 2700 * 1000  --<< timer every how many missions you can do, default is 600 seconds
 local ActiveMission = 0
@@ -55,15 +55,17 @@ end)
 RegisterServerEvent('AttackTransport:graczZrobilnapad', function()
 	local _source = source
 	local xPlayer = QBCore.Functions.GetPlayer(_source)
-	local bags = math.random(1,3)
+	local bags = math.random(3,6)
+	local bars = math.random(1,3)
 	local info = {
 		worth = math.random(cashA, cashB)
 	}
 	xPlayer.Functions.AddItem('markedbills', bags, false, info)
 	TriggerClientEvent('inventory:client:ItemBox', _source, QBCore.Shared.Items['markedbills'], "add")
-
+	xPlayer.Functions.AddItem('goldbar', bars, false, info)
+	TriggerClientEvent('inventory:client:ItemBox', _source, QBCore.Shared.Items['goldbar'], "add")
 	local chance = math.random(1, 100)
-	TriggerClientEvent('QBCore:Notify', _source, 'You took '..bags..' bags of cash from the van')
+	TriggerClientEvent('QBCore:Notify', _source, 'Du hast'..bags..' Taschen aus dem Van geholt')
 
 	if chance >= 95 then
 		xPlayer.Functions.AddItem('security_card_01', 1)
